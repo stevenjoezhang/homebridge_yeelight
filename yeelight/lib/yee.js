@@ -177,7 +177,7 @@ YeeDevice = function (did, loc, model, power, bri, hue, sat, ct, name, color_mod
     this.setPower = function(is_on) {
         this.power = is_on;
 
-        if (this.model == "bedside" || model == 'candela') {
+        if (this.model == "bedside" || model == 'yeelight_ms') {
             bleCmd[0] = 0x43;
             bleCmd[1] = 0x40;
             bleCmd[2] = is_on ? 0x01 : 0x02;
@@ -201,7 +201,7 @@ YeeDevice = function (did, loc, model, power, bri, hue, sat, ct, name, color_mod
     this.setBright = function(val) {
         this.bright = val;
 
-        if (this.model == "bedside" || model == 'candela') {
+        if (this.model == "bedside" || model == 'yeelight_ms') {
             bleCmd[0] = 0x43;
             bleCmd[1] = 0x42;
             bleCmd[2] = parseInt(val.toString(16), 16);
@@ -464,9 +464,9 @@ exports.YeeAgent = function(ip, handler) {
             if (localName && localName.indexOf("XMCTD_") >= 0) {
                 that.log("found Yeelight Bedside lamp: " + peripheral.address);
                 that.handleBLEDevice(peripheral, "bedside");
-            } else if (localName && localName.indexOf("Candela") >= 0) {
+            } else if (localName && localName.indexOf("yeelight_ms") >= 0) {
                 that.log("found Yeelight Candela lamp: " + peripheral.address);
-                that.handleBLEDevice(peripheral, "candela");
+                that.handleBLEDevice(peripheral, "yeelight_ms");
             }
         });
     }.bind(this);
@@ -529,7 +529,7 @@ exports.YeeAgent = function(ip, handler) {
                     that.log("connect ok: " + did);
 
                     var serviceId;
-                    if (model == 'candela') {
+                    if (model == 'yeelight_ms') {
                       serviceId = 'fe87';
                     } else {
                       serviceId = '8e2f0cbd1a664b53ace6b494e25f87bd';
@@ -595,7 +595,7 @@ exports.YeeAgent = function(ip, handler) {
                 dev.propChangeCb(dev, 'power', 0);
 
             var brightness;
-            if (dev.model == 'candela') {
+            if (dev.model == 'yeelight_ms') {
                 brightness = data[3];
             } else if (dev.model == 'bedside') {
                 brightness = data[8];
