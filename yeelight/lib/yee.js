@@ -46,7 +46,7 @@ YeeDevice = function (did, loc, model, power, bri, hue, sat, ct, name, color_mod
     this.discovering     = 0;
 
 
-    this.update = function(loc, power, bri, hue, sat, ct, color_mode, name) {
+    this.update = function(loc, power, bri, hue, sat, ct, name, color_mode) {
         var tmp     = loc.split(":");
         var host    = tmp[0];
         var port    = tmp[1];
@@ -502,6 +502,7 @@ exports.YeeAgent = function(ip, handler) {
                                               "100",
                                               "0",
                                               "unknown",
+                                              "0",
                                               that.devPropChange
                                              );
           
