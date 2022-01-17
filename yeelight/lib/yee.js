@@ -546,24 +546,24 @@ exports.YeeAgent = function(ip, handler) {
                              function(error, characteristics) {
                                  that.devices[did].bleDevRWHdl = characteristics[0];
                                  that.devices[did].bleDevNotifyHdl = characteristics[1];
+                                 // 43 67 for auth
+                                 bleCmd[0] = 0x43;
+                                 bleCmd[1] = 0x67;
+                                 // deadbeef as magic for our Pi
+                                 bleCmd[2] = 0xde;
+                                 bleCmd[3] = 0xad;
+                                 bleCmd[4] = 0xbe;
+                                 bleCmd[5] = 0xbf;
+
+                                 that.devices[did].sendBLECmd();
+                                 that.devices[did].connected = true;
+                                 that.handler.onDevConnected(that.devices[did]);
                                  that.devices[did].bleDevNotifyHdl.on('data', function(data, isNotify) {
                                      that.handleBLENotify(did, data, isNotify);
                                  });
 
                                  that.devices[did].bleDevNotifyHdl.subscribe(function(error) {
                                      that.log('ble notification on');
-                                     // 43 67 for auth
-                                     bleCmd[0] = 0x43;
-                                     bleCmd[1] = 0x67;
-                                     // deadbeef as magic for our Pi
-                                     bleCmd[2] = 0xde;
-                                     bleCmd[3] = 0xad;
-                                     bleCmd[4] = 0xbe;
-                                     bleCmd[5] = 0xbf;
-
-                                     that.devices[did].sendBLECmd();
-                                     that.devices[did].connected = true;
-                                     that.handler.onDevConnected(that.devices[did]);
                                });
                         });
                     });
