@@ -496,7 +496,7 @@ exports.YeeAgent = function(ip, handler) {
             that.devices[did] = new YeeDevice(did,
                                               "0.0.0.0:0",
                                               model,
-                                              "on",
+                                              "off",
                                               "100",
                                               "360",
                                               "100",
